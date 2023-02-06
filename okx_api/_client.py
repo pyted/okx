@@ -7,6 +7,22 @@ import requests
 import time
 
 
+class RequestMethodError(Exception):
+    def __init__(self, msg):
+        self.error_msg = msg
+
+    def __str__(self):
+        return self.error_msg
+
+
+class ResponseStatusError(Exception):
+    def __init__(self, msg):
+        self.error_msg = msg
+
+    def __str__(self):
+        return self.error_msg
+
+
 def request_retry_wrapper(retry_num=50, retry_delay=0.1):
     def wrapper1(func):
         def wrapper2(*args, **kwargs):
@@ -76,11 +92,11 @@ class Client(object):
             response = requests.post(url, data=body, headers=header)
         else:
             msg = 'Error request method {method}'.format(method=str(method))
-            raise Exception(msg)  # todo
+            raise RequestMethodError(msg)
 
         if not str(response.status_code).startswith('2'):
             msg = 'Error response_status_code {code}'.format(code=response.status_code)
-            raise Exception(msg)  # todo
+            raise ResponseStatusError(msg)
         return response.json()
 
     @staticmethod
