@@ -10,7 +10,7 @@ URL = "https://github.com/pyted/okx_api"
 EMAIL = 'pyted@outlook.com'
 AUTHOR = 'pyted'
 REQUIRES_PYTHON = '>=3.6.0'
-VERSION = '1.0.3'
+VERSION = '1.0.4'
 
 REQUIRED = [
     'requests',
