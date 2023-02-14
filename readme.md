@@ -1,6 +1,8 @@
 # okx-api 说明文档
 
-**项目更名 在Python中的下载方式变成了pip install okx**
+**项目更名 okx_api -> okx**
+
+**在Python中的下载方式变成了pip install okx**
 
 ## 1 okx-api设计目的
 
