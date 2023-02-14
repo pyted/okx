@@ -1,5 +1,5 @@
 from paux.param import to_local
-from okx_api._client import Client
+from okx._client import Client
 
 
 class _AccountEndpoints:
@@ -10,8 +10,8 @@ class _AccountEndpoints:
     get_bills = ['/api/v5/account/bills', 'GET']  # 账单流水查询（近七天）
     get_bills_archive = ['/api/v5/account/bills-archive', 'GET']  # 账单流水查询（近三月）
     get_config = ['/api/v5/account/config', 'GET']  # 查看账户配置
-    set_set_position_mode = ['/api/v5/account/set-position-mode', 'POST']  # 设置持仓模式
-    set_set_leverage = ['/api/v5/account/set-leverage', 'POST']  # 设置杠杆倍数
+    set_position_mode = ['/api/v5/account/set-position-mode', 'POST']  # 设置持仓模式
+    set_leverage = ['/api/v5/account/set-leverage', 'POST']  # 设置杠杆倍数
     get_max_size = ['/api/v5/account/max-size', 'GET']  # 获取最大可买卖/开仓数量
     get_max_avail_size = ['/api/v5/account/max-avail-size', 'GET']  # 获取最大可用数量
     set_margin_balance = ['/api/v5/account/position/margin-balance', 'POST']  # 调整保证金
@@ -20,8 +20,8 @@ class _AccountEndpoints:
     get_trade_fee = ['/api/v5/account/trade-fee', 'GET']  # 获取当前账户交易手续费费率
     get_interest_accrued = ['/api/v5/account/interest-accrued', 'GET']  # 获取计息记录
     get_interest_rate = ['/api/v5/account/interest-rate', 'GET']  # 获取用户当前杠杆借币利率
-    set_set_greeks = ['/api/v5/account/set-greeks', 'POST']  # 期权greeks的PA/BS切换
-    set_set_isolated_mode = ['/api/v5/account/set-isolated-mode', 'POST']  # 逐仓交易设置
+    set_greeks = ['/api/v5/account/set-greeks', 'POST']  # 期权greeks的PA/BS切换
+    set_isolated_mode = ['/api/v5/account/set-isolated-mode', 'POST']  # 逐仓交易设置
     get_max_withdrawal = ['/api/v5/account/max-withdrawal', 'GET']  # 查看账户最大可转余额
     get_risk_state = ['/api/v5/account/risk-state', 'GET']  # 查看账户特定风险状态
     set_quick_margin_borrow_repay = ['/api/v5/account/quick-margin-borrow-repay', 'POST']  # 一键借币模式手动借币还币
@@ -36,7 +36,7 @@ class _AccountEndpoints:
     set_simulated_margin = ['/api/v5/account/simulated_margin', 'POST']  # 组合保证金的虚拟持仓保证金计算
     get_greeks = ['/api/v5/account/greeks', 'GET']  # 查看账户Greeks
     get_position_tiers = ['/api/v5/account/position-tiers', 'GET']  # 获取组合保证金模式全仓限制
-    set_set_riskOffset_type = ['/api/v5/account/set-riskOffset-type', 'POST']  # 设置组合保证金账户风险对冲模式
+    set_riskOffset_type = ['/api/v5/account/set-riskOffset-type', 'POST']  # 设置组合保证金账户风险对冲模式
     set_activate_option = ['/api/v5/account/activate-option', 'POST']  # 开通期权交易
 
 
@@ -149,7 +149,7 @@ class Account(Client):
         return self.send_request(*_AccountEndpoints.get_config, **to_local(locals()))
 
     # 设置持仓模式
-    def set_set_position_mode(self, posMode: str):
+    def set_position_mode(self, posMode: str):
         '''
         https://www.okx.com/docs-v5/zh/#rest-api-account-set-position-mode
 
@@ -157,10 +157,10 @@ class Account(Client):
         Parameter         	Type    	Required	Description
         posMode           	String  	是       	持仓方式long_short_mode：双向持仓net_mode：单向持仓仅适用交割/永续
         '''
-        return self.send_request(*_AccountEndpoints.set_set_position_mode, **to_local(locals()))
+        return self.send_request(*_AccountEndpoints.set_position_mode, **to_local(locals()))
 
     # 设置杠杆倍数
-    def set_set_leverage(self, lever: str, mgnMode: str, instId: str = '', ccy: str = '', posSide: str = ''):
+    def set_leverage(self, lever: str, mgnMode: str, instId: str = '', ccy: str = '', posSide: str = ''):
         '''
         https://www.okx.com/docs-v5/zh/#rest-api-account-set-leverage
 
@@ -172,7 +172,7 @@ class Account(Client):
         ccy               	String  	可选      	保证金币种仅适用于跨币种保证金模式的全仓币币杠杆。设置自动借币的杠杆倍数时必填
         posSide           	String  	可选      	持仓方向long：双向持仓多头short：双向持仓空头仅适用于逐仓交割/永续在双向持仓且保证金模式为逐仓条件下必填
         '''
-        return self.send_request(*_AccountEndpoints.set_set_leverage, **to_local(locals()))
+        return self.send_request(*_AccountEndpoints.set_leverage, **to_local(locals()))
 
     # 获取最大可买卖/开仓数量
     def get_max_size(self, instId: str, tdMode: str, ccy: str = '', px: str = '', leverage: str = '',
@@ -295,7 +295,7 @@ class Account(Client):
         return self.send_request(*_AccountEndpoints.get_interest_rate, **to_local(locals()))
 
     # 期权greeks的PA/BS切换
-    def set_set_greeks(self, greeksType: str):
+    def set_greeks(self, greeksType: str):
         '''
         https://www.okx.com/docs-v5/zh/#rest-api-account-set-greeks-pa-bs
 
@@ -303,10 +303,10 @@ class Account(Client):
         Parameter         	Type    	Required	Description
         greeksType        	String  	是       	希腊字母展示方式PA：币本位，BS：美元本位
         '''
-        return self.send_request(*_AccountEndpoints.set_set_greeks, **to_local(locals()))
+        return self.send_request(*_AccountEndpoints.set_greeks, **to_local(locals()))
 
     # 逐仓交易设置
-    def set_set_isolated_mode(self, isoMode: str, type: str):
+    def set_isolated_mode(self, isoMode: str, type: str):
         '''
         https://www.okx.com/docs-v5/zh/#rest-api-account-isolated-margin-trading-settings
 
@@ -315,7 +315,7 @@ class Account(Client):
         isoMode           	String  	是       	逐仓保证金划转模式automatic:开仓自动划转autonomy:自主划转quick_margin:一键借币
         type              	String  	是       	业务线类型MARGIN:币币杠杆CONTRACTS:合约
         '''
-        return self.send_request(*_AccountEndpoints.set_set_isolated_mode, **to_local(locals()))
+        return self.send_request(*_AccountEndpoints.set_isolated_mode, **to_local(locals()))
 
     # 查看账户最大可转余额
     def get_max_withdrawal(self, ccy: str = ''):
@@ -514,7 +514,7 @@ class Account(Client):
         return self.send_request(*_AccountEndpoints.get_position_tiers, **to_local(locals()))
 
     # 设置组合保证金账户风险对冲模式
-    def set_set_riskOffset_type(self, type: str):
+    def set_riskOffset_type(self, type: str):
         '''
         https://www.okx.com/docs-v5/zh/#rest-api-account-set-risk-offset-type
 
@@ -522,7 +522,7 @@ class Account(Client):
         Parameter         	Type    	Required	Description
         type              	String  	是       	风险对冲模式1：现货对冲(USDT)2:现货对冲(币)3:衍生品对冲
         '''
-        return self.send_request(*_AccountEndpoints.set_set_riskOffset_type, **to_local(locals()))
+        return self.send_request(*_AccountEndpoints.set_riskOffset_type, **to_local(locals()))
 
     # 开通期权交易
     def set_activate_option(self, ):

@@ -1,4 +1,4 @@
-from okx_api import Public
+from okx import Public
 from pprint import pprint
 
 if __name__ == '__main__':

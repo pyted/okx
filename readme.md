@@ -1,36 +1,36 @@
-# okx_api 说明文档
+# okx-api 说明文档
 
-## 1 okx_api设计目的
+## 1 okx-api设计目的
 
 - 目前没有交易所承认的官方Rest Api Python Sdk，只有推荐的第三方项目，虽然也很好但是对于官方接口更新的维护较慢，我需要最新的底层接口支持。
-- 关于Okx，我开发了比较多的功能框架，例如获取实时行情数据的okx_candle，实盘现货交易框架：okx_spot，实盘永续合约交易框架：okx_swap，Okx的综合功能框架：okx（项目名就叫okx，pip install okx），所以公用的稳定底层十分重要。
-- okx_api是对交易所接口的底层封装，并非高级封装，对于熟悉Okx量化交易者来说仅需很少的学习成本。
+- 关于Okx，我开发了比较多的功能框架，例如获取实时行情数据的okx_candle，实盘现货交易框架：okx_spot，实盘永续合约交易框架：okx_swap，所以公用的稳定底层十分重要。
+- okx-api是对交易所接口的底层封装，并非高级封装，对于熟悉Okx量化交易者来说仅需很少的学习成本。
 
-## 2 下载okx_api
+## 2 下载okx-api
 
-GITHUB：https://github.com/pyted/okx_api
+GITHUB：https://github.com/pyted/okx
 
-```python
-pip3 install okx_api
+```cmd
+pip3 install okx
 ```
 
-## 3 使用okx_api的例子
+## 3 使用okx-api的例子
 
 ```python
-from okx_api import Market # 导入行情数据
+from okx import Market  # 导入行情数据
 from pprint import pprint
 
 if __name__ == '__main__':
-    # 行情数据无需添加key、secret与passphrase
-    key = ''
-    secret = ''
-    passphrase = ''
-    flag = '0'  # flag = '0' 实盘 flag = '1' 模拟盘
+  # 行情数据无需添加key、secret与passphrase
+  key = ''
+  secret = ''
+  passphrase = ''
+  flag = '0'  # flag = '0' 实盘 flag = '1' 模拟盘
 
-    market = Market()
-    # 获取现货交易BTC-USDT的行情信息
-    result = market.get_ticker(instId='BTC-USDT')
-    pprint(result)
+  market = Market()
+  # 获取现货交易BTC-USDT的行情信息
+  result = market.get_ticker(instId='BTC-USDT')
+  pprint(result)
 ```
 
 输出：
@@ -57,14 +57,14 @@ if __name__ == '__main__':
 ```
 
 
-## 4 okx_api的说明
+## 4 okx-api的说明
 
 
-okx_api是对REST API接口的封装，不包含WebSocket API。
+okx-api是对REST API接口的封装，不包含WebSocket API。
 
-okx_api的请求参数和返回结果与官方一致
+okx-api的请求参数和返回结果与官方一致
 
-okx_api服务器网络问题时，会尝试重新请求，重新请求的状态码有：                
+okx-api服务器网络问题时，会尝试重新请求，重新请求的状态码有：                
 
 - 50001 服务暂时不可用，请稍后重试
 - 50004 接口请求超时（不代表请求成功或者失败，请检查请求结果）
@@ -73,22 +73,22 @@ okx_api服务器网络问题时，会尝试重新请求，重新请求的状态�
 - 50026 系统错误，请稍后重试
 
     
-okx_api包含功能：
+okx-api包含功能：
 
 |接口种类|类名称|是否需要秘钥|
 |:---|:---|:---|
-|交易|okx_api.Trade|是|
-|资金|okx_api.Funding|是|
-|闪兑|okx_api.Convert|是|
-|账户|okx_api.Account|是|
-|子账户|okx_api.SubAccount|是|
-|网格交易|okx_api.Grid|是|
-|赚币|okx_api.Staking|是|
-|跟单接口|okx_api.CopyTrading|是|
-|行情数据|okx_api.Market|否|
-|公共数据|okx_api.Public|否|
-|交易大数据|okx_api.Rubik|否|
-|Status（系统状态）|okx_api.System|否|
+|交易|okx.Trade|是|
+|资金|okx.Funding|是|
+|闪兑|okx.Convert|是|
+|账户|okx.Account|是|
+|子账户|okx.SubAccount|是|
+|网格交易|okx.Grid|是|
+|赚币|okx.Staking|是|
+|跟单接口|okx.CopyTrading|是|
+|行情数据|okx.Market|否|
+|公共数据|okx.Public|否|
+|交易大数据|okx.Rubik|否|
+|Status（系统状态）|okx.System|否|
 
 全部功能类的实例化都包含4个参数：
 
@@ -565,29 +565,29 @@ okx_api包含功能：
 交易模块必须填写秘钥
 
 ```python
-from okx_api import Trade
+from okx import Trade
 from pprint import pprint
 
 if __name__ == '__main__':
-    # 交易模块需要秘钥
-    key = '****'
-    secret = '****'
-    passphrase = '****'
-    flag = '0'
+  # 交易模块需要秘钥
+  key = '****'
+  secret = '****'
+  passphrase = '****'
+  flag = '0'
 
-    trade = Trade(key, secret, passphrase, flag)
+  trade = Trade(key, secret, passphrase, flag)
 
-    # 限价单购买BTC-USDT现货，数量2，价格1
-    result = trade.set_order(
-        instId='BTC-USDT',
-        tdMode='cash',
-        side='buy',
-        ordType='limit',
-        px='1',
-        sz='2',
+  # 限价单购买BTC-USDT现货，数量2，价格1
+  result = trade.set_order(
+    instId='BTC-USDT',
+    tdMode='cash',
+    side='buy',
+    ordType='limit',
+    px='1',
+    sz='2',
 
-    )
-    pprint(result)
+  )
+  pprint(result)
 ```
 
 输出：
@@ -626,7 +626,7 @@ if __name__ == '__main__':
 |小额资产兑换|set_convert_dust_assets|
 |获取余币宝余额|get_saving_balance|
 |余币宝申购/赎回|set_purchase_redempt|
-|设置余币宝借贷利率|set_set_lending_rate|
+|设置余币宝借贷利率|set_lending_rate|
 |获取余币宝出借明细|get_lending_history|
 |获取市场借贷信息（公共）|get_lending_rate_summary|
 |获取市场借贷历史（公共）|get_lending_rate_history|
@@ -898,7 +898,7 @@ if __name__ == '__main__':
 
 
 
-#### 7.2.19 设置余币宝借贷利率 set_set_lending_rate
+#### 7.2.19 设置余币宝借贷利率 set_lending_rate
 
 请求路径：/api/v5/asset/set-lending-rate 请求方法：POST
 
@@ -955,23 +955,23 @@ if __name__ == '__main__':
 ### 7.3 例子  
 
 资金模块需要秘钥
-    
+
 ```python
-from okx_api import Funding
+from okx import Funding
 from pprint import pprint
 
 if __name__ == '__main__':
-    # 资金模块需要秘钥
-    key = '****'
-    secret = '****'
-    passphrase = '****'
-    flag = '0'
+  # 资金模块需要秘钥
+  key = '****'
+  secret = '****'
+  passphrase = '****'
+  flag = '0'
 
-    funding = Funding(key, secret, passphrase, flag)
+  funding = Funding(key, secret, passphrase, flag)
 
-    # 获取资金账户余额
-    result = funding.get_balances(ccy='USDT')
-    pprint(result)
+  # 获取资金账户余额
+  result = funding.get_balances(ccy='USDT')
+  pprint(result)
 ```
 
 输出：
@@ -1074,21 +1074,21 @@ if __name__ == '__main__':
 闪兑模块需要秘钥
 
 ```python
-from okx_api import Convert
+from okx import Convert
 from pprint import pprint
 
 if __name__ == '__main__':
-    # 闪兑模块需要秘钥
-    key = '****'
-    secret = '****'
-    passphrase = '****'
-    flag = '0'
+  # 闪兑模块需要秘钥
+  key = '****'
+  secret = '****'
+  passphrase = '****'
+  flag = '0'
 
-    convert = Convert(key, secret, passphrase, flag)
+  convert = Convert(key, secret, passphrase, flag)
 
-    # 获取闪兑币种列表
-    result = convert.get_currencies()
-    pprint(result)
+  # 获取闪兑币种列表
+  result = convert.get_currencies()
+  pprint(result)
 ```
 
 输出：
@@ -1114,8 +1114,8 @@ if __name__ == '__main__':
 |账单流水查询（近七天）|get_bills|
 |账单流水查询（近三月）|get_bills_archive|
 |查看账户配置|get_config|
-|设置持仓模式|set_set_position_mode|
-|设置杠杆倍数|set_set_leverage|
+|设置持仓模式|set_position_mode|
+|设置杠杆倍数|set_leverage|
 |获取最大可买卖/开仓数量|get_max_size|
 |获取最大可用数量|get_max_avail_size|
 |调整保证金|set_margin_balance|
@@ -1124,8 +1124,8 @@ if __name__ == '__main__':
 |获取当前账户交易手续费费率|get_trade_fee|
 |获取计息记录|get_interest_accrued|
 |获取用户当前杠杆借币利率|get_interest_rate|
-|期权greeks的PA/BS切换|set_set_greeks|
-|逐仓交易设置|set_set_isolated_mode|
+|期权greeks的PA/BS切换|set_greeks|
+|逐仓交易设置|set_isolated_mode|
 |查看账户最大可转余额|get_max_withdrawal|
 |查看账户特定风险状态|get_risk_state|
 |一键借币模式手动借币还币|set_quick_margin_borrow_repay|
@@ -1140,7 +1140,7 @@ if __name__ == '__main__':
 |组合保证金的虚拟持仓保证金计算|set_simulated_margin|
 |查看账户Greeks|get_greeks|
 |获取组合保证金模式全仓限制|get_position_tiers|
-|设置组合保证金账户风险对冲模式|set_set_riskOffset_type|
+|设置组合保证金账户风险对冲模式|set_riskOffset_type|
 |开通期权交易|set_activate_option|
 
 
@@ -1254,7 +1254,7 @@ if __name__ == '__main__':
 请求参数：无
 
 
-#### 9.2.8 设置持仓模式 set_set_position_mode
+#### 9.2.8 设置持仓模式 set_position_mode
 
 请求路径：/api/v5/account/set-position-mode 请求方法：POST
 
@@ -1266,7 +1266,7 @@ if __name__ == '__main__':
 
 
 
-#### 9.2.9 设置杠杆倍数 set_set_leverage
+#### 9.2.9 设置杠杆倍数 set_leverage
 
 请求路径：/api/v5/account/set-leverage 请求方法：POST
 
@@ -1406,7 +1406,7 @@ if __name__ == '__main__':
 
 
 
-#### 9.2.18 期权greeks的PA/BS切换 set_set_greeks
+#### 9.2.18 期权greeks的PA/BS切换 set_greeks
 
 请求路径：/api/v5/account/set-greeks 请求方法：POST
 
@@ -1418,7 +1418,7 @@ if __name__ == '__main__':
 
 
 
-#### 9.2.19 逐仓交易设置 set_set_isolated_mode
+#### 9.2.19 逐仓交易设置 set_isolated_mode
 
 请求路径：/api/v5/account/set-isolated-mode 请求方法：POST
 
@@ -1635,7 +1635,7 @@ if __name__ == '__main__':
 
 
 
-#### 9.2.34 设置组合保证金账户风险对冲模式 set_set_riskOffset_type
+#### 9.2.34 设置组合保证金账户风险对冲模式 set_riskOffset_type
 
 请求路径：/api/v5/account/set-riskOffset-type 请求方法：POST
 
@@ -1658,21 +1658,21 @@ if __name__ == '__main__':
 账户模块需要秘钥
 
 ```python
-from okx_api import Account
+from okx import Account
 from pprint import pprint
 
 if __name__ == '__main__':
-    # 账户模块需要秘钥
-    key = '****'
-    secret = '****'
-    passphrase = '****'
-    flag = '0'
-    
-    account = Account(key, secret, passphrase, flag)
+  # 账户模块需要秘钥
+  key = '****'
+  secret = '****'
+  passphrase = '****'
+  flag = '0'
 
-    # 查看账户USDT余额
-    result = account.get_balance('USDT')
-    pprint(result)
+  account = Account(key, secret, passphrase, flag)
+
+  # 查看账户USDT余额
+  result = account.get_balance('USDT')
+  pprint(result)
 ```
 
 输出：
@@ -1728,7 +1728,7 @@ if __name__ == '__main__':
 |获取子账户资金账户余额|get_asset_balances|
 |查询子账户转账记录|get_bills|
 |子账户间资金划转|set_transfer|
-|设置子账户主动转出权限|set_set_transfer_out|
+|设置子账户主动转出权限|set_transfer_out|
 |查看被托管的子账户列表|get_entrust_subaccount_list|
 |获取用户的节点返佣信息|get_if_rebate|
 
@@ -1826,7 +1826,7 @@ if __name__ == '__main__':
 
 
 
-#### 10.2.7 设置子账户主动转出权限 set_set_transfer_out
+#### 10.2.7 设置子账户主动转出权限 set_transfer_out
 
 请求路径：/api/v5/users/subaccount/set-transfer-out 请求方法：POST
 
@@ -1866,21 +1866,21 @@ if __name__ == '__main__':
 子账户模块需要秘钥
 
 ```python
-from okx_api import SubAccount
+from okx import SubAccount
 from pprint import pprint
 
 if __name__ == '__main__':
-    # 子账户模块需要秘钥
-    key = '****'
-    secret = '****'
-    passphrase = '****'
-    flag = '0'
+  # 子账户模块需要秘钥
+  key = '****'
+  secret = '****'
+  passphrase = '****'
+  flag = '0'
 
-    subAccount = SubAccount(key, secret, passphrase, flag)
+  subAccount = SubAccount(key, secret, passphrase, flag)
 
-    # 查看子账户列表
-    result = subAccount.get_list()
-    pprint(result)
+  # 查看子账户列表
+  result = subAccount.get_list()
+  pprint(result)
 ```
 
 输出：
@@ -2203,21 +2203,21 @@ if __name__ == '__main__':
 赚币模块需要秘钥
 
 ```python
-from okx_api import Staking
+from okx import Staking
 from pprint import pprint
 
 if __name__ == '__main__':
-    # 赚币模块需要秘钥
-    key = '****'
-    secret = '****'
-    passphrase = '****'
-    flag = '0'
+  # 赚币模块需要秘钥
+  key = '****'
+  secret = '****'
+  passphrase = '****'
+  flag = '0'
 
-    staking = Staking(key, secret, passphrase, flag)
+  staking = Staking(key, secret, passphrase, flag)
 
-    # 查看项目
-    result = staking.get_offers()
-    pprint(result)
+  # 查看项目
+  result = staking.get_offers()
+  pprint(result)
 ```
 
 输出：
@@ -2259,7 +2259,7 @@ if __name__ == '__main__':
 |交易员止盈止损|set_algo_order|
 |交易员平仓|set_close_subposition|
 |交易员获取带单合约|get_instruments|
-|交易员修改带单合约|set_set_instruments|
+|交易员修改带单合约|set_instruments|
 |交易员历史分润明细|get_profit_sharing_details|
 |交易员历史分润汇总|get_total_profit_sharing|
 |交易员待分润明细|get_unrealized_profit_sharing_details|
@@ -2328,7 +2328,7 @@ if __name__ == '__main__':
 请求参数：无
 
 
-#### 13.2.6 交易员修改带单合约 set_set_instruments
+#### 13.2.6 交易员修改带单合约 set_instruments
 
 请求路径：/api/v5/copytrading/set-instruments 请求方法：POST
 
@@ -2672,20 +2672,20 @@ if __name__ == '__main__':
 **行情数据模块无需秘钥**
 
 ```python
-from okx_api import Market
+from okx import Market
 from pprint import pprint
 
 if __name__ == '__main__':
-    # 行情数据模块无需秘钥
-    key = ''
-    secret = ''
-    passphrase = ''
-    flag = '0'
+  # 行情数据模块无需秘钥
+  key = ''
+  secret = ''
+  passphrase = ''
+  flag = '0'
 
-    market = Market(key, secret, passphrase, flag)
-    # 获取所有产品行情信息
-    result = market.get_tickers(instType='SPOT')  # SPOT币币
-    pprint(result)
+  market = Market(key, secret, passphrase, flag)
+  # 获取所有产品行情信息
+  result = market.get_tickers(instType='SPOT')  # SPOT币币
+  pprint(result)
 ```
 
 输出：
@@ -3007,20 +3007,20 @@ if __name__ == '__main__':
 公共数据模块无需秘钥
 
 ```python
-from okx_api import Public
+from okx import Public
 from pprint import pprint
 
 if __name__ == '__main__':
-    # 公共数据模块无需秘钥
-    key = ''
-    secret = ''
-    passphrase = ''
-    flag = '0'
+  # 公共数据模块无需秘钥
+  key = ''
+  secret = ''
+  passphrase = ''
+  flag = '0'
 
-    public = Public(key, secret, passphrase, flag)
-    # 获取交易产品基础信息
-    result = public.get_instruments(instType='SWAP', instId='BTC-USDT-SWAP')
-    pprint(result)
+  public = Public(key, secret, passphrase, flag)
+  # 获取交易产品基础信息
+  result = public.get_instruments(instType='SWAP', instId='BTC-USDT-SWAP')
+  pprint(result)
 ```
 
 输出：
@@ -3213,22 +3213,22 @@ if __name__ == '__main__':
 ### 16.3 例子
 
 交易大数据模块无需秘钥
-    
+
 ```python
-from okx_api import Rubik
+from okx import Rubik
 from pprint import pprint
 
 if __name__ == '__main__':
-    # 交易大数据模块无需秘钥
-    key = ''
-    secret = ''
-    passphrase = ''
-    flag = '0'
+  # 交易大数据模块无需秘钥
+  key = ''
+  secret = ''
+  passphrase = ''
+  flag = '0'
 
-    rubik = Rubik(key, secret, passphrase, flag)
-    # 获取主动买入/卖出情况
-    result = rubik.get_taker_volume(instType='SPOT', ccy='BTC')
-    pprint(result)
+  rubik = Rubik(key, secret, passphrase, flag)
+  # 获取主动买入/卖出情况
+  result = rubik.get_taker_volume(instType='SPOT', ccy='BTC')
+  pprint(result)
 
 ```
 
@@ -3272,20 +3272,20 @@ if __name__ == '__main__':
 System模块无需秘钥
 
 ```python
-from okx_api import System
+from okx import System
 from pprint import pprint
 
 if __name__ == '__main__':
-    # System模块无需秘钥
-    key = ''
-    secret = ''
-    passphrase = ''
-    flag = '0'
+  # System模块无需秘钥
+  key = ''
+  secret = ''
+  passphrase = ''
+  flag = '0'
 
-    system = System(key, secret, passphrase, flag)
-    # 获取系统升级事件的状态
-    result = system.get_status()
-    pprint(result)
+  system = System(key, secret, passphrase, flag)
+  # 获取系统升级事件的状态
+  result = system.get_status()
+  pprint(result)
 
 ```
 

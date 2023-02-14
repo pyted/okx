@@ -1,4 +1,4 @@
-from okx_api import Funding
+from okx import Funding
 from pprint import pprint
 
 if __name__ == '__main__':

@@ -1,4 +1,4 @@
-from okx_api import Convert
+from okx import Convert
 from pprint import pprint
 
 if __name__ == '__main__':

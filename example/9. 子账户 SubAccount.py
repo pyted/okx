@@ -1,4 +1,4 @@
-from okx_api import SubAccount
+from okx import SubAccount
 from pprint import pprint
 
 if __name__ == '__main__':

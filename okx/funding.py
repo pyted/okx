@@ -1,5 +1,5 @@
 from paux.param import to_local
-from okx_api._client import Client
+from okx._client import Client
 
 
 class _FundingEndpoints:
@@ -21,7 +21,7 @@ class _FundingEndpoints:
     set_convert_dust_assets = ['/api/v5/asset/convert-dust-assets', 'POST']  # 小额资产兑换
     get_saving_balance = ['/api/v5/asset/saving-balance', 'GET']  # 获取余币宝余额
     set_purchase_redempt = ['/api/v5/asset/purchase_redempt', 'POST']  # 余币宝申购/赎回
-    set_set_lending_rate = ['/api/v5/asset/set-lending-rate', 'POST']  # 设置余币宝借贷利率
+    set_lending_rate = ['/api/v5/asset/set-lending-rate', 'POST']  # 设置余币宝借贷利率
     get_lending_history = ['/api/v5/asset/lending-history', 'GET']  # 获取余币宝出借明细
     get_lending_rate_summary = ['/api/v5/asset/lending-rate-summary', 'GET']  # 获取市场借贷信息（公共）
     get_lending_rate_history = ['/api/v5/asset/lending-rate-history', 'GET']  # 获取市场借贷历史（公共）
@@ -284,7 +284,7 @@ class Funding(Client):
         return self.send_request(*_FundingEndpoints.set_purchase_redempt, **to_local(locals()))
 
     # 设置余币宝借贷利率
-    def set_set_lending_rate(self, ccy: str, rate: str):
+    def set_lending_rate(self, ccy: str, rate: str):
         '''
         https://www.okx.com/docs-v5/zh/#rest-api-funding-set-lending-rate
 
@@ -293,7 +293,7 @@ class Funding(Client):
         ccy               	String  	是       	币种名称，如BTC
         rate              	String  	是       	贷出利率参数取值范围在1%到365%之间
         '''
-        return self.send_request(*_FundingEndpoints.set_set_lending_rate, **to_local(locals()))
+        return self.send_request(*_FundingEndpoints.set_lending_rate, **to_local(locals()))
 
     # 获取余币宝出借明细
     def get_lending_history(self, ccy: str = '', after: str = '', before: str = '', limit: str = ''):

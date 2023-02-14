@@ -4,13 +4,13 @@ import sys
 from shutil import rmtree
 from setuptools import find_packages, setup, Command
 
-NAME = 'okx_api'
-DESCRIPTION = "Python OKX API interface"
-URL = "https://github.com/pyted/okx_api"
+NAME = 'okx'
+DESCRIPTION = "Python OKX API Interface"
+URL = "https://github.com/pyted/okx"
 EMAIL = 'pyted@outlook.com'
 AUTHOR = 'pyted'
 REQUIRES_PYTHON = '>=3.6.0'
-VERSION = '1.0.5'
+VERSION = '1.0.6'
 
 REQUIRED = [
     'requests',

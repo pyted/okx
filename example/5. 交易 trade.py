@@ -1,4 +1,4 @@
-from okx_api import Trade
+from okx import Trade
 from pprint import pprint
 
 if __name__ == '__main__':

@@ -1,5 +1,5 @@
 from paux.param import to_local
-from okx_api._client import Client
+from okx._client import Client
 
 
 class _SubAccountEndpoints:
@@ -9,7 +9,7 @@ class _SubAccountEndpoints:
     get_asset_balances = ['/api/v5/asset/subaccount/balances', 'GET']  # 获取子账户资金账户余额
     get_bills = ['/api/v5/asset/subaccount/bills', 'GET']  # 查询子账户转账记录
     set_transfer = ['/api/v5/asset/subaccount/transfer', 'POST']  # 子账户间资金划转
-    set_set_transfer_out = ['/api/v5/users/subaccount/set-transfer-out', 'POST']  # 设置子账户主动转出权限
+    set_transfer_out = ['/api/v5/users/subaccount/set-transfer-out', 'POST']  # 设置子账户主动转出权限
     get_entrust_subaccount_list = ['/api/v5/users/entrust-subaccount-list', 'GET']  # 查看被托管的子账户列表
     get_if_rebate = ['/api/v5/users/partner/if-rebate', 'GET']  # 获取用户的节点返佣信息
 
@@ -108,7 +108,7 @@ class SubAccount(Client):
         return self.send_request(*_SubAccountEndpoints.set_transfer, **data)
 
     # 设置子账户主动转出权限
-    def set_set_transfer_out(self, subAcct: str, canTransOut: bool = ''):
+    def set_transfer_out(self, subAcct: str, canTransOut: bool = ''):
         '''
         https://www.okx.com/docs-v5/zh/#rest-api-subaccount-set-permission-of-transfer-out
 
@@ -117,7 +117,7 @@ class SubAccount(Client):
         subAcct           	String  	是       	子账户名称，支持设置多个（不超过20个），子账户名称之间半角逗号分隔
         canTransOut       	Boolean 	否       	是否可以主动转出，默认为truefalse：不可转出true：可以转出
         '''
-        return self.send_request(*_SubAccountEndpoints.set_set_transfer_out, **to_local(locals()))
+        return self.send_request(*_SubAccountEndpoints.set_transfer_out, **to_local(locals()))
 
     # 查看被托管的子账户列表
     def get_entrust_subaccount_list(self, subAcct: str = ''):

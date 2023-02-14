@@ -1,5 +1,5 @@
 from paux.param import to_local
-from okx_api._client import Client
+from okx._client import Client
 
 
 class _TradeEndpoints:

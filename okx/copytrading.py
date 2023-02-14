@@ -1,5 +1,5 @@
 from paux.param import to_local
-from okx_api._client import Client
+from okx._client import Client
 
 
 class _CopytradingEndpoints:
@@ -8,7 +8,7 @@ class _CopytradingEndpoints:
     set_algo_order = ['/api/v5/copytrading/algo-order', 'POST']  # 交易员止盈止损
     set_close_subposition = ['/api/v5/copytrading/close-subposition', 'POST']  # 交易员平仓
     get_instruments = ['/api/v5/copytrading/instruments', 'GET']  # 交易员获取带单合约
-    set_set_instruments = ['/api/v5/copytrading/set-instruments', 'POST']  # 交易员修改带单合约
+    set_instruments = ['/api/v5/copytrading/set-instruments', 'POST']  # 交易员修改带单合约
     get_profit_sharing_details = ['/api/v5/copytrading/profit-sharing-details', 'GET']  # 交易员历史分润明细
     get_total_profit_sharing = ['/api/v5/copytrading/total-profit-sharing', 'GET']  # 交易员历史分润汇总
     get_unrealized_profit_sharing_details = ['/api/v5/copytrading/unrealized-profit-sharing-details', 'GET']  # 交易员待分润明细
@@ -75,7 +75,7 @@ class Copytrading(Client):
         return self.send_request(*_CopytradingEndpoints.get_instruments, **to_local(locals()))
 
     # 交易员修改带单合约
-    def set_set_instruments(self, instId: str):
+    def set_instruments(self, instId: str):
         '''
         https://www.okx.com/docs-v5/zh/#rest-api-copy-trading-set-leading-instruments
 
@@ -83,7 +83,7 @@ class Copytrading(Client):
         Parameter         	Type    	Required	Description
         instId            	String  	是       	产品ID，如 BTC-USDT-SWAP，多个产品用半角逗号隔开，最多支持10个产品ID
         '''
-        return self.send_request(*_CopytradingEndpoints.set_set_instruments, **to_local(locals()))
+        return self.send_request(*_CopytradingEndpoints.set_instruments, **to_local(locals()))
 
     # 交易员历史分润明细
     def get_profit_sharing_details(self, after: str = '', before: str = '', limit: str = ''):

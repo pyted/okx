@@ -1,4 +1,4 @@
-from okx_api import Staking
+from okx import Staking
 from pprint import pprint
 
 if __name__ == '__main__':
