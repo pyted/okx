@@ -1,5 +1,7 @@
 # okx-api 说明文档
 
+**项目更名 在Python中的下载方式变成了pip install okx**
+
 ## 1 okx-api设计目的
 
 - 目前没有交易所承认的官方Rest Api Python Sdk，只有推荐的第三方项目，虽然也很好但是对于官方接口更新的维护较慢，我需要最新的底层接口支持。
