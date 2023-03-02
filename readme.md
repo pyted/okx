@@ -1,4 +1,4 @@
-# okx-api 说明文档
+# okx-api 说明文档 v1.0.8
 
 **项目更名 okx_api -> okx**
 

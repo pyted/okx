@@ -98,7 +98,7 @@ class Client(object):
             raise RequestMethodError(msg)
 
         if not str(response.status_code).startswith('2'):
-            msg = 'Error response_status_code {code}'.format(code=response.status_code)
+            msg = 'Error response_status_code {code}\nresponse_content={content}'.format(code=response.status_code,content=response.text)
             raise ResponseStatusError(msg)
         return response.json()
 
