@@ -23,7 +23,7 @@ class ResponseStatusError(Exception):
         return self.error_msg
 
 
-def request_retry_wrapper(retry_num=50,retry_delay=0.1):
+def request_retry_wrapper(retry_num=50, retry_delay=0.1):
     def wrapper1(func):
         def wrapper2(*args, **kwargs):
             for i in range(retry_num - 1):
@@ -39,7 +39,7 @@ def request_retry_wrapper(retry_num=50,retry_delay=0.1):
                         continue
                     else:
                         return result
-                except:
+                except requests.exceptions.ConnectionError:
                     time.sleep(retry_delay)
             result = func(*args, **kwargs)
             return result
@@ -52,11 +52,13 @@ def request_retry_wrapper(retry_num=50,retry_delay=0.1):
 class Client(object):
     API_URL = 'https://www.okex.com'
 
-    def __init__(self, key='', secret='', passphrase='', flag='0'):
+    def __init__(self, key='', secret='', passphrase='', flag='0', proxies={}, proxy_host: str = None):
         self.key = key
         self.secret = secret
         self.passphrase = passphrase
         self.flag = flag
+        self.proxies = proxies
+        self.proxy_host = proxy_host
 
     @request_retry_wrapper()
     def send_request(self, path, method, **params):
@@ -68,7 +70,10 @@ class Client(object):
         if method == 'GET' and params_no_empty:
             path = path + '?' + up.urlencode(params_no_empty)
         # url
-        url = up.urljoin(self.API_URL, path)
+        if not self.proxy_host:
+            url = up.urljoin(self.API_URL, path)
+        else:
+            url = self.proxy_host + path
         # body
         if method == 'POST':
             body = json.dumps(params_no_empty)
@@ -90,15 +95,16 @@ class Client(object):
         )
         # request
         if method == 'GET':
-            response = requests.get(url, headers=header)
+            response = requests.get(url, headers=header, proxies=self.proxies)
         elif method == 'POST':
-            response = requests.post(url, data=body, headers=header)
+            response = requests.post(url, data=body, headers=header, proxies=self.proxies)
         else:
             msg = 'Error request method {method}'.format(method=str(method))
             raise RequestMethodError(msg)
 
         if not str(response.status_code).startswith('2'):
-            msg = 'Error response_status_code {code}\nresponse_content={content}'.format(code=response.status_code,content=response.text)
+            msg = 'Error response_status_code {code}\nresponse_content={content}'.format(code=response.status_code,
+                                                                                         content=response.text)
             raise ResponseStatusError(msg)
         return response.json()
 

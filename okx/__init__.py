@@ -11,4 +11,4 @@ from okx.subaccount import SubAccount  # 子账户
 from okx.system import System  # Status（系统状态）
 from okx.trade import Trade  # 交易
 
-__version__ = '1.0.8'
+__version__ = '1.0.9'
