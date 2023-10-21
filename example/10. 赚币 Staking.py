@@ -1,4 +1,4 @@
-from okx import Staking
+from okx import Earn
 from pprint import pprint
 
 if __name__ == '__main__':
@@ -8,8 +8,8 @@ if __name__ == '__main__':
     passphrase = '****'
     flag = '0'
 
-    staking = Staking(key, secret, passphrase, flag)
+    earn = Earn(key, secret, passphrase, flag)
 
     # 查看项目
-    result = staking.get_offers()
+    result = earn.get_offers()
     pprint(result)

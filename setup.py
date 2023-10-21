@@ -9,10 +9,11 @@ DESCRIPTION = "Python OKX API Interface"
 URL = "https://github.com/pyted/okx"
 EMAIL = 'pyted@outlook.com'
 AUTHOR = 'pyted'
-REQUIRES_PYTHON = '>=3.6.0'
-VERSION = '1.0.9'
+REQUIRES_PYTHON = '>=3.8.0'
+VERSION = '2.0.2'
 
 REQUIRED = [
+    'urllib3',
     'requests',
     'paux',
 ]

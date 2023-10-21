@@ -58,22 +58,30 @@ class Client(object):
         self.passphrase = passphrase
         self.flag = flag
         self.proxies = proxies
+        if proxy_host and proxy_host.endswith('/'):
+            proxy_host = proxy_host[0:-1]
         self.proxy_host = proxy_host
 
     @request_retry_wrapper()
     def send_request(self, path, method, **params):
         params_no_empty = {}
         for k, v in params.items():
-            if v != '':
+            if v not in ['', [], {}, None] and k not in ['proxies', 'proxy_host']:
                 params_no_empty[k] = v
+
         # path
         if method == 'GET' and params_no_empty:
             path = path + '?' + up.urlencode(params_no_empty)
         # url
-        if not self.proxy_host:
-            url = up.urljoin(self.API_URL, path)
-        else:
+        if self.proxy_host:
             url = self.proxy_host + path
+        elif params['proxy_host']:
+            proxy_host = params['proxy_host']
+            if proxy_host.endswith('/'):
+                proxy_host = proxy_host[0:-1]
+            url = proxy_host + path
+        else:
+            url = up.urljoin(self.API_URL, path)
         # body
         if method == 'POST':
             body = json.dumps(params_no_empty)

@@ -1,4 +1,4 @@
-from okx import System
+from okx import Status
 from pprint import pprint
 
 if __name__ == '__main__':
@@ -8,7 +8,7 @@ if __name__ == '__main__':
     passphrase = ''
     flag = '0'
 
-    system = System(key, secret, passphrase, flag)
+    status = Status(key, secret, passphrase, flag)
     # 获取系统升级事件的状态
-    result = system.get_status()
+    result = status.get_status()
     pprint(result)

@@ -1,14 +1,27 @@
-from okx.account import Account  # 账户
-from okx.convert import Convert  # 闪兑
-from okx.copytrading import Copytrading  # 跟单接口
-from okx.funding import Funding  # 资金
-from okx.grid import Grid  # 网格交易
-from okx.market import Market  # 行情数据
-from okx.public import Public  # 公共数据
-from okx.rubik import Rubik  # 交易大数据
-from okx.staking import Staking  #
-from okx.subaccount import SubAccount  # 子账户
-from okx.system import System  # Status（系统状态）
-from okx.trade import Trade  # 交易
+from okx.account import Account  # 交易账户
 
-__version__ = '1.0.9'
+# 撮合交易--------------------------------------------
+from okx.trade import Trade  # 交易
+from okx.algotrade import AlgoTrade  # 策略交易
+from okx.gridtrade import GridTrade  # 网格交易
+from okx.signalbottrade import SignalBotTrade  # 信号交易
+from okx.recurringbuy import RecurringBuy  # 定投
+from okx.copytrade import CopyTrade  # 跟单
+from okx.market import Market  # 行情数据
+# ---------------------------------------------------
+
+from okx.blocktrade import BlockTrade  # 大宗交易
+from okx.spreadtrade import SpreadTrade  # 价差交易
+from okx.public import Public  # # 公共数据
+from okx.tradingstatistics import TradingStatistics  # 交易大数据
+from okx.fundingaccount import FundingAccount  # 资金账户
+from okx.subaccount import SubAccount  # 子账户
+
+# 金融产品--------------------------------------------
+from okx.earn import Earn  # 赚币
+from okx.savings import Savings  # 余币宝
+# ---------------------------------------------------
+
+from okx.status import Status  # Status
+
+__version__ = '2.0.2'

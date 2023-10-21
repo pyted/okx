@@ -1,4 +1,4 @@
-from okx import Funding
+from okx import FundingAccount
 from pprint import pprint
 
 if __name__ == '__main__':
@@ -8,8 +8,8 @@ if __name__ == '__main__':
     passphrase = '****'
     flag = '0'
 
-    funding = Funding(key, secret, passphrase, flag)
+    fundingAccount = FundingAccount(key, secret, passphrase, flag)
 
     # 获取资金账户余额
-    result = funding.get_balances(ccy='USDT')
+    result = fundingAccount.get_balances(ccy='USDT')
     pprint(result)
