@@ -1,0 +1,1 @@
+FUNC_EXCEPTION = ['FUNC_EXCEPTION', 'Function execution error']
