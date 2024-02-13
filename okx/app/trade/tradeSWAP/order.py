@@ -141,7 +141,7 @@ class TradeOrder(TradeBase):
         '''
         # 验证posSide
         if posSide not in ['long', 'short', '']:
-            msg = 'posSide must in ["long","short",''].'
+            msg = 'posSide must in ["long","short",""].'
             raise exception.ParamException(msg)
         # 通过posSide选择side
         if posSide == 'long':  # 买入开多
@@ -168,7 +168,7 @@ class TradeOrder(TradeBase):
         datas_open = []
         for data in result['data']:
             if posSide:
-                if data['posSide'] == posSide and side == side:
+                if data['posSide'] == posSide and data['side'] == side:
                     datas_open.append(data)
             else:
                 if (
@@ -203,7 +203,7 @@ class TradeOrder(TradeBase):
         '''
         # 验证posSide
         if posSide not in ['long', 'short', '']:
-            msg = 'posSide must in ["long","short",''].'
+            msg = 'posSide must in ["long","short",""].'
             raise exception.ParamException(msg)
         # 通过posSide选择side
         if posSide == 'long':  # 卖出平多
@@ -230,7 +230,7 @@ class TradeOrder(TradeBase):
         datas_open = []
         for data in result['data']:
             if posSide:
-                if data['posSide'] == posSide and side == side:
+                if data['posSide'] == posSide and data['side'] == side:
                     datas_open.append(data)
             else:
                 if (

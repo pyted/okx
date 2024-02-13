@@ -16,8 +16,7 @@ class _PublicEndpoints():
     get_price_limit = ['/api/v5/public/price-limit', 'GET']  # 获取限价
     get_opt_summary = ['/api/v5/public/opt-summary', 'GET']  # 获取期权定价
     get_estimated_price = ['/api/v5/public/estimated-price', 'GET']  # 获取预估交割/行权价格
-    get_discount_rate_interest_free_quota = ['/api/v5/public/discount-rate-interest-free-quota',
-                                             'GET']  # 获取免息额度和币种折算率等级
+    get_discount_rate_interest_free_quota = ['/api/v5/public/discount-rate-interest-free-quota', 'GET']  # 获取免息额度和币种折算率等级
     get_time = ['/api/v5/public/time', 'GET']  # 获取系统时间
     get_mark_price = ['/api/v5/public/mark-price', 'GET']  # 获取标记价格
     get_position_tiers = ['/api/v5/public/position-tiers', 'GET']  # 获取衍生品仓位档位

@@ -130,3 +130,28 @@ class ExchangeInfo(MarketBase):
             'msg': ''
         }
         return result
+
+    # 获取可以交易的产品列表
+    def get_instIds_all(
+            self,
+            expire_seconds: int = 60 * 5,
+            uly: str = '',
+    ) -> dict:
+        '''
+        :param expire_seconds: 缓存时间（秒）
+        :param uly: 标的指数，仅适用于交割/永续/期权，期权必填
+        '''
+        exchangeInfos_result = self.get_exchangeInfos(uly=uly, expire_seconds=expire_seconds)
+        # [ERROR RETURN] 异常交易规则与交易
+        if exchangeInfos_result['code'] != '0':
+            return exchangeInfos_result
+        instIds = [
+            data['instId'] for data in exchangeInfos_result['data']
+        ]
+        # [RETURN]
+        result = {
+            'code': '0',
+            'data': instIds,
+            'msg': ''
+        }
+        return result

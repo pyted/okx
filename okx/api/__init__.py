@@ -12,7 +12,7 @@ from okx.api.market import Market  # 行情数据
 
 from okx.api.blocktrade import BlockTrade  # 大宗交易
 from okx.api.spreadtrade import SpreadTrade  # 价差交易
-from okx.api.public import Public  # # 公共数据
+from okx.api.public import Public  # 公共数据
 from okx.api.tradingstatistics import TradingStatistics  # 交易大数据
 from okx.api.fundingaccount import FundingAccount  # 资金账户
 from okx.api.subaccount import SubAccount  # 子账户

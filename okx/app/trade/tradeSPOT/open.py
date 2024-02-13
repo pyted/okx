@@ -48,7 +48,7 @@ class TradeOpen(TradeOrder, TradeQuantityAndPrice):
             字母（区分大小写）与数字的组合，可以是纯字母、纯数字，且长度在1-16位之间
         :param newThread: 是否开启新线程执行
         :param callback: 非执行异常的回调函数
-        :param errorback: 执行异常的回调函
+        :param errorback: 执行异常的回调函数
         '''
         # 常量参数
         ORDTYPE = 'limit'
@@ -144,6 +144,7 @@ class TradeOpen(TradeOrder, TradeQuantityAndPrice):
                         instId=instId, ordType=ORDTYPE,
                         leverage=LEVERAGE,
                     )
+
                     # [ERROR RETURN]
                     if get_quantity_result['code'] != '0':
                         return get_quantity_result
@@ -295,6 +296,10 @@ class TradeOpen(TradeOrder, TradeQuantityAndPrice):
         ORDTYPE = 'market'
         SIDE = 'buy'
         TDMODE = 'cash'
+        # 官方解释：市价单委托数量sz的单位，仅适用于币币市价订单 base_ccy: 交易货币 ；quote_ccy：计价货币 买单默认quote_ccy， 卖单默认base_ccy
+        # 使用base_ccy
+        TGTCCY = 'base_ccy'
+        LEVERAGE = 1
 
         # 记录信息
         information = {
@@ -346,12 +351,13 @@ class TradeOpen(TradeOrder, TradeQuantityAndPrice):
             if get_ticker_result['code'] != '0':
                 return get_ticker_result
             openPrice = origin_float(get_ticker_result['data']['askPx'])
-
+            '''
             # 通过交易货币数量算计价货币数量
             if quantity != None:
                 openMoney = float(quantity) * openPrice  # 圆整之前
             else:
                 openMoney = openMoney  # int | float
+
             round_quantity_result = self.round_quantity(
                 quantity=openMoney,  # 币币购买，quantity为购买金额
                 instId=instId,
@@ -359,7 +365,7 @@ class TradeOpen(TradeOrder, TradeQuantityAndPrice):
             )
             if round_quantity_result['code'] != '0':
                 return round_quantity_result
-
+            
             openMoney = round_quantity_result['data']  # openMoney 圆整之后
             quantity_to_f_result = self.quantity_to_f(
                 quantity=openMoney,
@@ -367,16 +373,57 @@ class TradeOpen(TradeOrder, TradeQuantityAndPrice):
             )
             if quantity_to_f_result['code'] != '0':
                 return quantity_to_f_result
-            openMoney_f = quantity_to_f_result['data']  # openMoney转换为字符串
+            quantity_f = quantity_to_f_result['data']  # openMoney转换为字符串
+            '''
+            # 【开仓数量】 quantity quantity_f
+            # 字符串
+            if isinstance(quantity, str):
+                quantity_f = quantity
+                quantity = float(quantity)
+            # origin
+            elif isinstance(quantity, origin_float) or isinstance(quantity, origin_int):
+                quantity_f = quantity.origin()
+            # 数字对象和None
+            else:
+                # None 通过openMoney获取quantity
+                if quantity == None:
+                    get_quantity_result = self.get_quantity(
+                        openPrice=openPrice, openMoney=openMoney,
+                        instId=instId, ordType=ORDTYPE,
+                        leverage=LEVERAGE,
+                    )
+
+                    # [ERROR RETURN]
+                    if get_quantity_result['code'] != '0':
+                        return get_quantity_result
+                    quantity = get_quantity_result['data']
+                # 数字对象 圆整quantity
+                else:
+                    round_quantity_result = self.round_quantity(
+                        quantity=quantity,
+                        instId=instId,
+                        ordType=ORDTYPE,
+                    )
+                    # [ERROR RETURN]
+                    if round_quantity_result['code'] != '0':
+                        return round_quantity_result
+                    quantity = round_quantity_result['data']
+                # 转化为字符串 -> quantity_f
+                quantity_f_result = self.quantity_to_f(quantity=quantity, instId=instId)
+                # [ERROR RETURN]
+                if quantity_f_result['code'] != '0':
+                    return quantity_f_result
+                quantity_f = quantity_f_result['data']
 
             request_param = dict(
                 instId=instId,
                 tdMode=TDMODE,
                 side=SIDE,
                 ordType=ORDTYPE,
-                sz=openMoney_f,
+                sz=quantity_f,
                 clOrdId=clOrdId,
                 tag=tag,
+                tgtCcy = TGTCCY,
             )
 
             # 购买

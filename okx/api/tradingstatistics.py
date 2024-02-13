@@ -13,12 +13,9 @@ class _TradingStatisticsEndpoints():
     get_long_short_account_ratio = ['/api/v5/rubik/stat/contracts/long-short-account-ratio', 'GET']  # 获取合约多空持仓人数比
     get_contracts_open_interest_volume = ['/api/v5/rubik/stat/contracts/open-interest-volume', 'GET']  # 获取合约持仓量及交易量
     get_option_open_interest_volume = ['/api/v5/rubik/stat/option/open-interest-volume', 'GET']  # 获取期权持仓量及交易量
-    get_open_interest_volume_ratio = ['/api/v5/rubik/stat/option/open-interest-volume-ratio',
-                                      'GET']  # 看涨/看跌期权合约 持仓总量比/交易总量比
-    get_open_interest_volume_expiry = ['/api/v5/rubik/stat/option/open-interest-volume-expiry',
-                                       'GET']  # 看涨看跌持仓总量及交易总量（按到期日分）
-    get_open_interest_volume_strike = ['/api/v5/rubik/stat/option/open-interest-volume-strike',
-                                       'GET']  # 看涨看跌持仓总量及交易总量（按执行价格分）
+    get_open_interest_volume_ratio = ['/api/v5/rubik/stat/option/open-interest-volume-ratio', 'GET']  # 看涨/看跌期权合约 持仓总量比/交易总量比
+    get_open_interest_volume_expiry = ['/api/v5/rubik/stat/option/open-interest-volume-expiry', 'GET']  # 看涨看跌持仓总量及交易总量（按到期日分）
+    get_open_interest_volume_strike = ['/api/v5/rubik/stat/option/open-interest-volume-strike', 'GET']  # 看涨看跌持仓总量及交易总量（按执行价格分）
     get_taker_block_volume = ['/api/v5/rubik/stat/option/taker-block-volume', 'GET']  # 看跌/看涨期权合约 主动买入/卖出量
 
 

@@ -1,5 +1,6 @@
 from okx.api import Account as AccountAPI
 from okx.app import exception
+from copy import deepcopy
 
 
 class AccountSPOT():
@@ -24,20 +25,29 @@ class AccountSPOT():
         )
 
     # 查看账户余额 details为列表
-    def get_balances(self):
+    def get_balances(self, instIds=[], ccys=[]):
         '''
         https://www.okx.com/docs-v5/zh/#rest-api-account-get-balance
         '''
-        result = self.api.get_balance()
+        if instIds or ccys:
+            inner_ccys = deepcopy(ccys)
+            for instId in instIds:
+                _ccy = instId.split('-')[0]
+                if _ccy not in inner_ccys:
+                    inner_ccys.append(_ccy)
+            request_ccy = ','.join(inner_ccys)
+            result = self.api.get_balance(ccy=request_ccy)
+        else:
+            result = self.api.get_balance()
         result['data'] = result['data'][0]
         return result
 
     # 查看账户余额 details为字典
-    def get_balancesMap(self):
+    def get_balancesMap(self, instIds=[], ccys=[]):
         '''
         https://www.okx.com/docs-v5/zh/#rest-api-account-get-balance
         '''
-        result = self.get_balances()
+        result = self.get_balances(instIds=instIds, ccys=ccys)
         data_map = {}
         for data in result['data']['details']:
             ccy = data['ccy']
@@ -62,7 +72,7 @@ class AccountSPOT():
         if not ccy:
             ccy = instId.split('-')[0]
         result = self.api.get_balance(ccy=ccy)
-        if result['code'] != '0':
+        if not result['code'] == '0':
             return result
         result['data'] = result['data'][0]
         if len(result['data']['details']) == 0:
