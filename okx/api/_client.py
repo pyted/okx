@@ -56,7 +56,7 @@ def request_retry_wrapper(retry_num=50, retry_delay=0.1):
 
 
 class Client(object):
-    API_URL = 'https://www.okex.com'
+    API_URL = 'https://www.okx.com'
 
     def __init__(
             self,

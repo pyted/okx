@@ -10,15 +10,16 @@ URL = "https://github.com/pyted/okx"
 EMAIL = 'pyted@outlook.com'
 AUTHOR = 'pyted'
 REQUIRES_PYTHON = '>=3.8.0'
-VERSION = '2.1.1'
+VERSION = '2.1.2'
 
 REQUIRED = [
-    'urllib3',
     'requests',
     'pandas',
     'numpy',
     'paux>=1.0.13',
-    'candlelite>=1.0.12',
+    'candlelite>=1.0.10',
+    'urllib3==1.26.12',
+    'cryptography',
 ]
 
 EXTRAS = {}

@@ -1,0 +1,7 @@
+requests
+pandas
+numpy
+paux>=1.0.13
+candlelite>=1.0.10
+urllib3==1.26.12
+cryptography
